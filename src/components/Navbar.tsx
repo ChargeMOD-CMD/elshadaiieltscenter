@@ -28,7 +28,7 @@ export function Navbar() {
     >
       <div
         className={`mx-auto max-w-7xl px-4 sm:px-6 transition-all ${
-          scrolled ? "glass rounded-2xl mx-3 sm:mx-6" : ""
+          (scrolled || open) ? "glass rounded-2xl mx-3 sm:mx-6" : ""
         }`}
       >
         <div className="flex items-center justify-between">
@@ -80,20 +80,20 @@ export function Navbar() {
 
         {/* Mobile Menu Overlay */}
         <div
-          className={`lg:hidden absolute top-full left-4 right-4 mt-2 transition-all duration-300 origin-top ${
+          className={`lg:hidden absolute top-full left-4 right-4 mt-4 transition-all duration-300 origin-top ${
             open
               ? "opacity-100 scale-100 pointer-events-auto"
               : "opacity-0 scale-95 pointer-events-none"
           }`}
         >
-          <div className="glass rounded-3xl p-6 shadow-elegant border-primary/20 flex flex-col gap-3">
+          <div className="bg-surface/95 backdrop-blur-xl rounded-3xl p-6 shadow-elegant border border-white/10 flex flex-col gap-4">
             {links.map((l, i) => (
               <a
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="px-4 py-3 rounded-xl text-base font-medium hover:bg-white/10 transition-colors animate-fade-up"
-                style={{ animationDelay: `${i * 0.1}s` }}
+                className="px-4 py-3 rounded-xl text-lg font-semibold hover:bg-white/5 transition-colors animate-fade-up"
+                style={{ animationDelay: `${i * 0.05}s` }}
               >
                 {l.label}
               </a>
@@ -101,8 +101,8 @@ export function Navbar() {
             <a
               href="#enroll"
               onClick={() => setOpen(false)}
-              className="mt-4 px-4 py-4 rounded-2xl bg-gradient-primary text-primary-foreground text-center font-bold shadow-glow animate-fade-up"
-              style={{ animationDelay: `${links.length * 0.1}s` }}
+              className="mt-2 px-4 py-4 rounded-2xl bg-gradient-primary text-primary-foreground text-center font-bold text-lg shadow-glow animate-fade-up"
+              style={{ animationDelay: `${links.length * 0.05}s` }}
             >
               Enroll Now
             </a>

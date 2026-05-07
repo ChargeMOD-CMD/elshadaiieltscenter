@@ -2,7 +2,7 @@ import { ArrowRight, MessageCircle, Sparkles, Globe } from "lucide-react";
 
 export function Hero() {
   return (
-    <section id="top" className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
+    <section id="top" className="relative min-h-screen flex items-center pt-28 sm:pt-32 pb-20 overflow-hidden">
       {/* Backgrounds */}
       <div className="absolute inset-0 bg-gradient-hero" />
       <div className="absolute inset-0 grid-bg opacity-60" />
@@ -18,7 +18,7 @@ export function Hero() {
             <span>AI-Powered IELTS Coaching</span>
           </div>
 
-          <h1 className="mt-6 font-display text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.05]">
+          <h1 className="mt-6 font-display text-4xl sm:text-6xl lg:text-7xl font-bold leading-[1.1]">
             Unlock Your <br />
             <span className="text-gradient">Global Future</span>
           </h1>

@@ -1,0 +1,145 @@
+import { useState } from "react";
+import { Send, X } from "lucide-react";
+
+// Unique custom mentor icon: graduation cap + headset + chat spark
+const MentorIcon = ({ className = "" }: { className?: string }) => (
+  <svg viewBox="0 0 32 32" className={className} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    {/* Headset arc */}
+    <path d="M5 18a11 11 0 0 1 22 0" />
+    {/* Earcups */}
+    <rect x="3.5" y="17" width="4" height="6.5" rx="1.5" fill="currentColor" fillOpacity="0.25" />
+    <rect x="24.5" y="17" width="4" height="6.5" rx="1.5" fill="currentColor" fillOpacity="0.25" />
+    {/* Mic */}
+    <path d="M26.5 23.5v1.5a3 3 0 0 1-3 3h-3.5" />
+    <circle cx="19" cy="28" r="1.2" fill="currentColor" />
+    {/* Graduation cap */}
+    <path d="M16 5 L26 9 L16 13 L6 9 Z" fill="currentColor" fillOpacity="0.35" />
+    <path d="M10.5 10.5 V14 a5.5 3 0 0 0 11 0 V10.5" />
+    <path d="M26 9 v5" />
+    {/* Spark */}
+    <path d="M22.5 4.5 l0.7 1.6 1.6 0.7 -1.6 0.7 -0.7 1.6 -0.7-1.6 -1.6-0.7 1.6-0.7z" fill="currentColor" />
+  </svg>
+);
+
+type Msg = { role: "ai" | "user"; text: string };
+
+const seed: Msg[] = [
+  { role: "ai", text: "Welcome to ELSHADAI IELTS CENTER 🌍 How can I help your global journey today?" },
+];
+
+const quickReplies = [
+  "Predict my band score",
+  "Recommend a course",
+  "Speaking practice",
+  "Admission guidance",
+];
+
+const aiReply = (q: string) => {
+  const t = q.toLowerCase();
+  if (t.includes("band")) return "Based on a quick diagnostic, I'd estimate your current band around 6.5 → 7.5 with focused 6-week training.";
+  if (t.includes("course") || t.includes("recommend")) return "Based on your goals, I recommend our IELTS Academic + 1-to-1 Mentorship combo.";
+  if (t.includes("speaking")) return "Sure! Try this Part 1 question: 'Describe your hometown and what makes it special.'";
+  if (t.includes("admission") || t.includes("enroll")) return "Easy — fill the enrollment form, or WhatsApp us at +91 9962994069 for instant counseling.";
+  return "Great question! Our mentors can give you a detailed answer — would you like a free counseling call?";
+};
+
+export function AIChatbot() {
+  const [open, setOpen] = useState(false);
+  const [messages, setMessages] = useState<Msg[]>(seed);
+  const [input, setInput] = useState("");
+
+  const send = (text: string) => {
+    if (!text.trim()) return;
+    const userMsg: Msg = { role: "user", text };
+    setMessages((m) => [...m, userMsg]);
+    setInput("");
+    setTimeout(() => {
+      setMessages((m) => [...m, { role: "ai", text: aiReply(text) }]);
+    }, 600);
+  };
+
+  return (
+    <>
+      {/* Holographic orb */}
+      <button
+        onClick={() => setOpen(!open)}
+        aria-label="Open AI Mentor"
+        className="fixed bottom-6 right-6 z-50 group"
+      >
+        <div className="relative h-16 w-16 rounded-full bg-gradient-primary grid place-items-center shadow-glow animate-pulse-glow">
+          <div className="absolute inset-0 rounded-full border border-white/30 animate-spin-slow" />
+          <div className="absolute -inset-2 rounded-full border border-primary/30 animate-spin-slow" style={{ animationDirection: "reverse" }} />
+          {open ? (
+            <X className="relative h-6 w-6 text-primary-foreground" />
+          ) : (
+            <MentorIcon className="relative h-7 w-7 text-primary-foreground" />
+          )}
+        </div>
+      </button>
+
+      {/* Chat panel */}
+      {open && (
+        <div className="fixed bottom-28 right-6 z-50 w-[92vw] max-w-sm rounded-3xl glass border border-primary/30 shadow-elegant overflow-hidden animate-fade-up">
+          <div className="px-5 py-4 bg-gradient-primary text-primary-foreground flex items-center gap-3">
+            <div className="h-9 w-9 rounded-full bg-white/15 grid place-items-center">
+              <MentorIcon className="h-5 w-5" />
+            </div>
+            <div>
+              <div className="font-display font-semibold text-sm">ELSHADAI AI Mentor</div>
+              <div className="text-[10px] opacity-80">Online · Globally aware</div>
+            </div>
+          </div>
+
+          <div className="h-72 overflow-y-auto p-4 space-y-3 bg-background/40">
+            {messages.map((m, i) => (
+              <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
+                <div
+                  className={`max-w-[85%] px-4 py-2.5 rounded-2xl text-sm ${
+                    m.role === "user"
+                      ? "bg-gradient-primary text-primary-foreground rounded-br-sm"
+                      : "glass rounded-bl-sm"
+                  }`}
+                >
+                  {m.text}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="px-3 py-2 flex flex-wrap gap-1.5 border-t border-border">
+            {quickReplies.map((q) => (
+              <button
+                key={q}
+                onClick={() => send(q)}
+                className="text-[11px] px-2.5 py-1 rounded-full bg-white/5 border border-border hover:border-primary/50 hover:text-primary transition"
+              >
+                {q}
+              </button>
+            ))}
+          </div>
+
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              send(input);
+            }}
+            className="p-3 flex items-center gap-2 border-t border-border bg-background/40"
+          >
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Ask anything about IELTS…"
+              className="flex-1 px-4 py-2.5 rounded-xl bg-white/5 border border-border focus:border-primary outline-none text-sm"
+            />
+            <button
+              type="submit"
+              className="h-10 w-10 grid place-items-center rounded-xl bg-gradient-primary text-primary-foreground shadow-glow hover:scale-105 transition"
+            >
+              <Send className="h-4 w-4" />
+            </button>
+          </form>
+        </div>
+      )}
+    </>
+  );
+}

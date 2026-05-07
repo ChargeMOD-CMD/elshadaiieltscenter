@@ -79,25 +79,33 @@ export function AIChatbot() {
 
       {/* Chat panel */}
       {open && (
-        <div className="fixed bottom-28 right-6 z-50 w-[92vw] max-w-sm rounded-3xl glass border border-primary/30 shadow-elegant overflow-hidden animate-fade-up">
-          <div className="px-5 py-4 bg-gradient-primary text-primary-foreground flex items-center gap-3">
-            <div className="h-9 w-9 rounded-full bg-white/15 grid place-items-center">
-              <MentorIcon className="h-5 w-5" />
+        <div className="fixed bottom-24 right-4 left-4 sm:left-auto sm:w-[380px] z-50 rounded-3xl bg-surface/98 backdrop-blur-2xl border border-white/10 shadow-elegant overflow-hidden animate-fade-up">
+          <div className="px-5 py-4 bg-gradient-primary text-primary-foreground flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-full bg-white/20 grid place-items-center">
+                <MentorIcon className="h-6 w-6" />
+              </div>
+              <div>
+                <div className="font-display font-bold text-sm">ELSHADAI AI Mentor</div>
+                <div className="text-[10px] opacity-90">Online · Global Expert</div>
+              </div>
             </div>
-            <div>
-              <div className="font-display font-semibold text-sm">ELSHADAI AI Mentor</div>
-              <div className="text-[10px] opacity-80">Online · Globally aware</div>
-            </div>
+            <button 
+              onClick={() => setOpen(false)}
+              className="h-8 w-8 rounded-full hover:bg-white/10 grid place-items-center transition"
+            >
+              <X className="h-5 w-5" />
+            </button>
           </div>
 
-          <div className="h-72 overflow-y-auto p-4 space-y-3 bg-background/40">
+          <div className="h-80 overflow-y-auto p-4 space-y-4 bg-background/20">
             {messages.map((m, i) => (
               <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
                 <div
-                  className={`max-w-[85%] px-4 py-2.5 rounded-2xl text-sm ${
+                  className={`max-w-[85%] px-4 py-3 rounded-2xl text-[13px] leading-relaxed ${
                     m.role === "user"
-                      ? "bg-gradient-primary text-primary-foreground rounded-br-sm"
-                      : "glass rounded-bl-sm"
+                      ? "bg-gradient-primary text-primary-foreground rounded-br-sm font-medium"
+                      : "bg-white/5 border border-white/5 rounded-bl-sm"
                   }`}
                 >
                   {m.text}
@@ -106,12 +114,12 @@ export function AIChatbot() {
             ))}
           </div>
 
-          <div className="px-3 py-2 flex flex-wrap gap-1.5 border-t border-border">
+          <div className="px-3 py-3 flex flex-wrap gap-2 border-t border-white/5">
             {quickReplies.map((q) => (
               <button
                 key={q}
                 onClick={() => send(q)}
-                className="text-[11px] px-2.5 py-1 rounded-full bg-white/5 border border-border hover:border-primary/50 hover:text-primary transition"
+                className="text-[10px] uppercase tracking-wider px-3 py-1.5 rounded-full bg-white/5 border border-white/10 hover:border-primary/50 hover:text-primary transition-all"
               >
                 {q}
               </button>
@@ -123,19 +131,19 @@ export function AIChatbot() {
               e.preventDefault();
               send(input);
             }}
-            className="p-3 flex items-center gap-2 border-t border-border bg-background/40"
+            className="p-4 flex items-center gap-2 border-t border-white/5 bg-background/40"
           >
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask anything about IELTS…"
-              className="flex-1 px-4 py-2.5 rounded-xl bg-white/5 border border-border focus:border-primary outline-none text-sm"
+              placeholder="Type your question..."
+              className="flex-1 px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-primary outline-none text-sm placeholder:text-muted-foreground/50"
             />
             <button
               type="submit"
-              className="h-10 w-10 grid place-items-center rounded-xl bg-gradient-primary text-primary-foreground shadow-glow hover:scale-105 transition"
+              className="h-11 w-11 grid place-items-center rounded-xl bg-gradient-primary text-primary-foreground shadow-glow hover:scale-105 active:scale-95 transition"
             >
-              <Send className="h-4 w-4" />
+              <Send className="h-5 w-5" />
             </button>
           </form>
         </div>
